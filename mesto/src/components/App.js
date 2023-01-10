@@ -15,40 +15,41 @@ const [editProfileOpen, setEditProfileOpened] = React.useState(false);
 const [addPlaceOpen, setAddPlaceOpened] = React.useState(false);
 const [editAvatarOpen, setEditAvatarOpened] = React.useState(false);
 
-
+const [selectedCard, setSelectedCard] = React.useState({})
 
   //это обработчики событий. конкретно, откытия попапов с формами
   function handleEditAvatarClick() {
-    console.log('аватар открылся?')
     setEditAvatarOpened(true)
 }
 
 function handleEditProfileClick() {
-    console.log('профиль открылся?')
     setEditProfileOpened(true)
 }
 
 function handleAddPlaceClick() {
-    console.log('добавление места открылось?')
     setAddPlaceOpened(true)
 }
 
+function handleCardClick(selectedCard)  {
+    setSelectedCard(selectedCard);
+
+}
+
 function closeAllPopups() {
-    console.log('закрытие отработало?')
     setEditProfileOpened(false)
     setEditAvatarOpened(false)
     setAddPlaceOpened(false)
-
-//не понимаю пока, как вызвать нужный мне  рычаг состония. ПОКА БУДЕТ ТАК! ЧУТЬ ПОЗЖЕ ПОДУМАЮ
+    setSelectedCard({})
+//не понимаю пока, как вызвать нужный мне  рычаг состония. чтобы передать, какой именно попап надо закрыть
+//ПОКА БУДЕТ ТАК! ЧУТЬ ПОЗЖЕ ПОДУМАЮ
 }
 
   return (
     <body className = "page">
     <div className="page__content">
     <Header />
-    <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+    <Main onCardClick={handleCardClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
     <Footer />
-    <ImagePopup />
 <PopupWithForm isOpen={editProfileOpen} setActive={setEditProfileOpened} onClose={closeAllPopups} title ={'Редактировать профиль'} name={'edit-profile'}>
 <label className = "form__input-field">
     <input type="text" id ="account-name-input" className="form__item form__item_content_name" name="name" placeholder="Имя" required minLength="2" maxLength="40" />
@@ -82,6 +83,7 @@ function closeAllPopups() {
 <h2 className="form__heading">Вы уверены?</h2>
 </PopupWithForm>
 
+<ImagePopup card={selectedCard} onClose={closeAllPopups}/>
 </div>
 
 </body>
@@ -90,21 +92,3 @@ function closeAllPopups() {
 
 export default App;
 
-
-/*
-<PopupWithForm active ={popupOpened} setActive ={setPopupOpened} children={editProfile}/>
-
-
-<div className="popup popup_new-place">
-                <input type="submit" className="save-button" value="Создать" aria-label="создать." />
-    </div>
-
-
-<div className="popup popup_pre-delete">
-            <input type="submit" className="save-button" value="да" aria-label="да." />
-</div>
-
-<div className="popup  popup_edit-profile"> // в изменении аватара тоже "сохранить"
-                <input type="submit" className="save-button" value="Сохранить" aria-label="сохранить." />
-    </div>
-*/

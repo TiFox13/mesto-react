@@ -2,7 +2,9 @@ import React from 'react';
 
 import avatar from '../images/avatar.jpg'
 import {api} from '../utils/Api.js'
-function Main({onAddPlace, onEditAvatar, onEditProfile}) {
+import Card from './Cards.js';
+
+function Main({onCardClick, onAddPlace, onEditAvatar, onEditProfile}) {
 const [userName, setUserName]= React.useState();
 const [userDescription, setUserDescription] = React.useState();
 const [userAvatar, setUserAvatar]  = React.useState();
@@ -24,21 +26,7 @@ React.useEffect(() =>{
     React.useEffect(()=> {
         api.getInitialCards()
         .then((res)=>{
-//вот здесь надо что-то сделать? сюда темплате?
-            <article className="element">
-            <button type="button" className="trash-button" aria-label="удалить."></button>
-            <div className="element__img-container">
-                <img className="element__photo" src="#" alt="" />
-            </div>
-            <div className="element__info">
-                <h2 className="element__text"></h2>
-                <div className = "like-area">
-                    <button type="button" className="like" aria-label="нравится, лайк."></button>
-                    <p className ="like-counter">1</p>
-                </div>
-
-            </div>
-            </article>
+            setCards(res)
         })
         .catch ((error) => {
             console.log(error); // выведем ошибку в консоль
@@ -60,26 +48,15 @@ React.useEffect(() =>{
             </div>
             <button type="button" className="add-button" onClick={onAddPlace} aria-label="добавить."></button>
         </section>
-
-
         <section className="elements">
-            <template id = "template-card">
-                <article className="element">
-                    <button type="button" className="trash-button" aria-label="удалить."></button>
-                    <div className="element__img-container">
-                        <img className="element__photo" src="#" alt="" />
-                    </div>
-                    <div className="element__info">
-                        <h2 className="element__text"></h2>
-                        <div className = "like-area">
-                            <button type="button" className="like" aria-label="нравится, лайк."></button>
-                            <p className ="like-counter">1</p>
-                        </div>
 
-                    </div>
-                </article>
-            </template>
+        {cards.map((item) =>     
+            <Card onCardClick={onCardClick} card={item} key={item._id}/>
+            )
+         }
+
           </section>
+        
     </main>
     )
 }
