@@ -6,7 +6,7 @@ function Card({onCardDelete, onCardLike, onCardClick, card, user}) {
   const isLiked = card.likes.some(i => i._id === user);
   const cardLikeButtonClassName = ( 
     `like ${isLiked && 'like_active'}` 
-  );; 
+  );
   function handleClick() {
     onCardClick(card);
   }
@@ -35,6 +35,5 @@ function Card({onCardDelete, onCardLike, onCardClick, card, user}) {
     </article>
   )
 }
-
 
 export default Card;
