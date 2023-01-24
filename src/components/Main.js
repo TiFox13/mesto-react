@@ -14,7 +14,7 @@ function Main({onCardDelete, onCardLike, onCardClick, onAddPlace, onEditAvatar, 
     <main>
       <section className="profile">
         <div className="profile__info">
-          <button type="button" onClick={onEditAvatar} className="avatar-button" aria-label="добавить."><img className="profile__avatar" src={currentUser.avatar} /></button>
+          <button type="button" onClick={onEditAvatar} className="avatar-button" aria-label="добавить."><img className="profile__avatar" src={currentUser.avatar} alt='аватар пользователя.' /></button>
 
           <div className="profile__text">
             <h1 className="profile__name">{currentUser.name}</h1>

@@ -14,6 +14,7 @@ import { api } from '../utils/Api.js'
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
+import PreDeletePopup from './PreDeletePopup.js';
 
 function App() {
   //переменные состояния (пользователь и массив карточек)
@@ -47,6 +48,7 @@ function App() {
   const [editProfileOpen, setEditProfileOpened] = React.useState(false);
   const [addPlaceOpen, setAddPlaceOpened] = React.useState(false);
   const [editAvatarOpen, setEditAvatarOpened] = React.useState(false);
+  const [preDeleteOpen, setPreDeleteOpened] = React.useState(false);
   // переменная состояния для попапа с картинкой (тут хранится картиночка с карточки, которую мы открываем)
   const [selectedCard, setSelectedCard] = React.useState({});
 
@@ -61,6 +63,10 @@ function App() {
 
   function handleAddPlaceClick() {
     setAddPlaceOpened(true);
+  }
+
+  function handlePreDeleteClick() {
+    setPreDeleteOpened(true);
   }
 
   function handleCardClick(selectedCard)  {
@@ -81,11 +87,11 @@ function App() {
       .then((res) =>{
         setCurrentUser(res)
       })
+      .then ((res) => {
+        closeAllPopups();  //закроем попап
+      })
       .catch((error) => {
         console.log(error); // выведем ошибку в консоль
-      })
-      .finally(() => {
-        closeAllPopups();  //закроем попап
       })
   }
 
@@ -94,13 +100,12 @@ function App() {
     api.patchAvatar(avatar)
       .then((res) => {
         setCurrentUser(res)
-
+      })
+      .then ((res) => {
+        closeAllPopups();  //закроем попап
       })
       .catch((error) => {
         console.log(error); // выведем ошибку в консоль
-      })
-      .finally(() => {
-        closeAllPopups(); //закроем попап
       })
   }
 
@@ -109,13 +114,12 @@ function App() {
     api.addNewCard(item)
       .then ((res) => {
         setCards([res, ...currentCard])
-        
+      })
+      .then ((res) => {
+        closeAllPopups();  //закроем попап
       })
       .catch((error) => {
         console.log(error); // выведем ошибку в консоль
-      })
-      .finally(() => {
-        closeAllPopups(); //закроем попап
       })
   }
 
@@ -147,14 +151,14 @@ function App() {
     api.deleteCard(card._id)
       .then((res) => {
       })
-      .catch((error) => {
-        console.log(error); // выведем ошибку в консоль
-      })
-      .finally (() => {   //только ПОСЛЕ того, как все точно удалилось, обновляем стейт
-          setCards((state) => state.filter((item) => {
+      .then((res) => {
+        setCards((state) => state.filter((item) => {
           return item._id !== card._id 
         }) 
         )
+      })
+      .catch((error) => {
+        console.log(error); // выведем ошибку в консоль
       })
   }
 
@@ -170,10 +174,9 @@ function App() {
             <EditProfilePopup onUpdateUser={handleUpdateUser}  isOpen={editProfileOpen} onClose={closeAllPopups} /> 
             <AddPlacePopup onAddCard={handleAddPlaceSubmit} isOpen={addPlaceOpen} onClose={closeAllPopups} title={'Новое место'} name={'new-place'} />
             <EditAvatarPopup onUpdateAvatar={handleUpdateAvatar} isOpen={editAvatarOpen} onClose={closeAllPopups} /> 
-
-            <PopupWithForm buttonText="Да" title={'Вы уверены?'} name={'pre-delete'}>
-              <h2 className="form__heading">Вы уверены?</h2>
-            </PopupWithForm>
+            
+            {/* <PreDeletePopup isOpen={preDeleteOpen} onClose={closeAllPopups}/> //создано, но пока не работает. 
+            ..разобралась, как подключить, но пока не до конца работает*/}
 
             <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
           </div>
