@@ -18,16 +18,16 @@ Flex-box
 JS
 
 ## Инструкция по развертыванию
-Убедитесь, что Node.js и NPM установлены.
+* Убедитесь, что Node.js и NPM установлены.
 
 1.  Склонируйте к себе репозиторий 
-git clone git@github.com:TiFox13/mesto-react.git
+```git clone git@github.com:TiFox13/mesto-react.git```
 cd mesto-react
 
 2. Запустите команду 
-npm i
+```npm i```
 
 3. Запустите пролижение
-npm start
+```npm start```
 
 После запуска приложение перейдите на http://localhost:3000, чтобы посмотреть результат в браузере
